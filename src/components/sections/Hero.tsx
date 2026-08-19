@@ -34,10 +34,10 @@ export function Hero() {
       {/* ═══════════════════════════════════════════════════════════ */}
       {/* ── MOBILE LAYOUT (< lg) ── */}
       {/* ═══════════════════════════════════════════════════════════ */}
-      <div className="flex lg:hidden flex-col min-h-screen relative pt-20">
+      <div className="flex lg:hidden flex-col min-h-[100dvh] relative pt-24 pb-8 justify-center">
 
         {/* ── Top: Name & Greeting ── */}
-        <div className="px-6 pt-4 z-20">
+        <div className="px-6 z-20">
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -70,7 +70,7 @@ export function Hero() {
         </div>
 
         {/* ── Center: Photo + Social Icons ── */}
-        <div className="flex-1 relative flex items-end justify-center mt-2">
+        <div className="relative flex items-center justify-center mt-8 mb-4">
 
           {/* Glow Effect */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] bg-[#6B46C1]/50 blur-[100px] rounded-full pointer-events-none z-0" />
