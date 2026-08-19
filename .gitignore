@@ -23,6 +23,8 @@
 # misc
 .DS_Store
 *.pem
+.eslintcache
+.husky
 
 # debug
 npm-debug.log*
@@ -39,3 +41,19 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS Files
+Thumbs.db
+desktop.ini
+
+# AI Agents / Planning
+/plans
