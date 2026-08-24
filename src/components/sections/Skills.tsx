@@ -5,7 +5,7 @@ import { TextWordReveal } from "@/components/ui/TextWordReveal";
 export function Skills() {
   return (
     <section id="habilidades" className="py-16 sm:py-20">
-      <div className="flex flex-col gap-16 max-w-[90vw] mx-auto">
+      <div className="flex flex-col gap-16 max-w-[min(90vw,1600px)] mx-auto">
         <div className="flex flex-col gap-6 max-w-2xl">
           <h2 className="text-[clamp(2rem,3.5vw,3.5rem)] font-extrabold font-second text-text-primary leading-[1.05] tracking-tight">
             <TextWordReveal text="Habilidades Técnicas" />
@@ -28,7 +28,7 @@ export function Skills() {
                   {skillGroup.items.map((item, i) => (
                     <span
                       key={i}
-                      className="text-lg sm:text-xl font-bold font-second text-text-primary/70 hover:text-text-primary transition-colors"
+                      className="text-lg sm:text-xl 2xl:text-2xl font-bold font-second text-text-primary/70 hover:text-text-primary transition-colors"
                     >
                       {item}
                     </span>

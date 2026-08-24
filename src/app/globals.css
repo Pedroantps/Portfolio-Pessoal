@@ -15,6 +15,9 @@
   --color-status-success: var(--status-success);
   --font-body: var(--body-font), sans-serif;
   --font-second: var(--second-font), sans-serif;
+
+  /* Custom breakpoint for Full HD+ screens */
+  --breakpoint-3xl: 1920px;
 }
 
 
@@ -49,7 +52,9 @@
   --motiq-surface-2: #111827;
 }
 
+
 body {
+  font-size: 1rem;
   font-family: var(--body-font), sans-serif;
   background-color: var(--bg-primary);
   color: var(--text-primary);

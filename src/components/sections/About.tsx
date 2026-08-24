@@ -7,7 +7,7 @@ import { TextWordReveal } from "@/components/ui/TextWordReveal";
 export function About() {
   return (
     <section id="sobre" className="py-16 sm:py-24">
-      <div className="max-w-[90vw] mx-auto flex flex-col gap-20">
+      <div className="max-w-[min(90vw,1600px)] mx-auto flex flex-col gap-20">
 
         {/* ── Top: Título + Narrativa ── */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 border-t border-border-subtle pt-12">
@@ -58,7 +58,7 @@ export function About() {
 
           {/* Coluna Direita — Narrativa */}
           <div className="lg:col-span-7 flex flex-col justify-start gap-6 lg:pt-2">
-            <p className="text-lg sm:text-xl text-text-secondary leading-relaxed font-light font-body">
+            <p className="text-lg sm:text-xl 2xl:text-2xl text-text-secondary leading-relaxed font-light font-body">
               Estudante de Engenharia de Software com foco em desenvolvimento <span className="text-text-primary font-normal">Full Stack</span> e apaixonado pela resolução de problemas através do código. Minha jornada é marcada pelo aprendizado contínuo e pela aplicação prática em projetos reais.
             </p>
             <p className="text-base text-text-secondary leading-relaxed font-light font-body">

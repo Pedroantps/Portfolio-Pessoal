@@ -20,7 +20,7 @@ export function Experience() {
     <section id="experiencia" className="py-16 scroll-mt-20">
       <div className="flex flex-col gap-12">
         <div>
-          <h2 className="text-2xl sm:text-3xl font-bold font-second text-text-primary mb-3">
+          <h2 className="text-2xl sm:text-3xl 2xl:text-4xl font-bold font-second text-text-primary mb-3">
             Trajetória
           </h2>
           <p className="text-base text-text-secondary max-w-2xl font-body">
@@ -83,7 +83,7 @@ export function Experience() {
         </div>
 
         {/* Timeline */}
-        <div className="relative border-l border-border-strong ml-4 sm:ml-6 pl-6 sm:pl-8">
+        <div className="relative border-l border-border-strong ml-4 sm:ml-6 2xl:ml-8 pl-6 sm:pl-8 2xl:pl-10">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeFilter}

@@ -106,7 +106,7 @@ export function Contact() {
         </motion.div>
       ))}
 
-      <div className="max-w-[90vw] mx-auto flex flex-col gap-20 relative z-10">
+      <div className="max-w-[min(90vw,1600px)] mx-auto flex flex-col gap-20 relative z-10">
 
         {/* ── Headline ── */}
         <div className="flex flex-col gap-6 max-w-5xl">
@@ -138,7 +138,7 @@ export function Contact() {
                   <link.icon className="h-4 w-4 flex-shrink-0" />
                   {link.label}
                 </span>
-                <span className="text-base sm:text-xl font-mono text-text-primary group-hover:text-text-primary/80 transition-colors">
+                <span className="text-base sm:text-xl 2xl:text-2xl font-mono text-text-primary group-hover:text-text-primary/80 transition-colors">
                   {link.isEmail ? (copied ? "copiado! ✓" : link.display) : link.display}
                 </span>
               </div>
