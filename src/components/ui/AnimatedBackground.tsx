@@ -62,9 +62,9 @@ function FloatingOrb({ orb, paused }: { orb: OrbConfig; paused: boolean }) {
   const translateAnim = paused
     ? {}
     : {
-        x: ["0px", "40px", "-30px", "20px", "0px"],
-        y: ["0px", "-35px", "25px", "-15px", "0px"],
-      };
+      x: ["0px", "40px", "-30px", "20px", "0px"],
+      y: ["0px", "-35px", "25px", "-15px", "0px"],
+    };
 
   const scaleAnim = paused ? {} : { scale: [1, 1.12, 0.94, 1.08, 1] };
 
@@ -149,41 +149,6 @@ function MouseSpotlight({ isMobile }: { isMobile: boolean }) {
   );
 }
 
-// ─── SVG Dot Grid ─────────────────────────────────────────────────────────────
-
-function DotGrid() {
-  return (
-    <svg
-      aria-hidden="true"
-      style={{
-        position: "absolute",
-        inset: 0,
-        width: "100%",
-        height: "100%",
-        pointerEvents: "none",
-        maskImage:
-          "radial-gradient(ellipse 70% 60% at 50% 50%, black 20%, transparent 100%)",
-        WebkitMaskImage:
-          "radial-gradient(ellipse 70% 60% at 50% 50%, black 20%, transparent 100%)",
-      }}
-    >
-      <defs>
-        <pattern
-          id="dot-pattern"
-          x="0"
-          y="0"
-          width="28"
-          height="28"
-          patternUnits="userSpaceOnUse"
-        >
-          <circle cx="1.5" cy="1.5" r="1.5" fill="rgba(255,255,255,0.12)" />
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#dot-pattern)" />
-    </svg>
-  );
-}
-
 // ─── Vignette ─────────────────────────────────────────────────────────────────
 
 function Vignette() {
@@ -237,7 +202,7 @@ export function AnimatedBackground() {
     const checkMobile = () => {
       setIsMobile(
         window.matchMedia("(pointer: coarse)").matches ||
-          window.innerWidth < 768
+        window.innerWidth < 768
       );
     };
 
@@ -288,11 +253,6 @@ export function AnimatedBackground() {
         {ORBS.map((orb) => (
           <FloatingOrb key={orb.id} orb={orb} paused={paused} />
         ))}
-      </div>
-
-      {/* ── Dot Grid Texture ── */}
-      <div style={{ position: "absolute", inset: 0, zIndex: 1 }}>
-        <DotGrid />
       </div>
 
       {/* ── Noise Film Grain ── */}

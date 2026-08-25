@@ -106,7 +106,7 @@ export function Experience() {
                   }}
                 >
                   {/* Dot no timeline */}
-                  <div className="absolute -left-[31px] sm:-left-[39px] top-1 h-4 w-4 rounded-full border-2 border-[#090D16] bg-brand-primary shadow-[0_0_0_4px_#090D16]" />
+                  <div className="absolute -left-[1.9375rem] sm:-left-[2.4375rem] top-1 h-4 w-4 rounded-full border-2 border-[#090D16] bg-brand-primary shadow-[0_0_0_4px_#090D16]" />
                   
                   <Card className="p-6">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">

@@ -52,6 +52,19 @@
   --motiq-surface-2: #111827;
 }
 
+/* ═══════════════════════════════════════════════════════════════════
+   Fluid Root Scale — Proportional layout across all desktop sizes
+   ─────────────────────────────────────────────────────────────────
+   Reference : 1440px viewport → 1rem = 16px (design baseline)
+   Formula   : font-size = (100vw / 1440) * 16 ≈ 1.1111vw
+   Clamp     : min 14px (small laptops) ↔ max 22px (ultrawide)
+   Mobile    : untouched (default 16px / 100%)
+   ═══════════════════════════════════════════════════════════════════ */
+@media (min-width: 1024px) {
+  html {
+    font-size: clamp(14px, 1.1111vw, 22px);
+  }
+}
 
 body {
   font-size: 1rem;

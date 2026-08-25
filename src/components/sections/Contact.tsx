@@ -106,7 +106,7 @@ export function Contact() {
         </motion.div>
       ))}
 
-      <div className="max-w-[min(90vw,1600px)] mx-auto flex flex-col gap-20 relative z-10">
+      <div className="max-w-[min(90vw,100rem)] mx-auto flex flex-col gap-20 relative z-10">
 
         {/* ── Headline ── */}
         <div className="flex flex-col gap-6 max-w-5xl">

@@ -7,7 +7,7 @@ import { TextWordReveal } from "@/components/ui/TextWordReveal";
 export function About() {
   return (
     <section id="sobre" className="py-16 sm:py-24">
-      <div className="max-w-[min(90vw,1600px)] mx-auto flex flex-col gap-20">
+      <div className="max-w-[min(90vw,100rem)] mx-auto flex flex-col gap-20">
 
         {/* ── Top: Título + Narrativa ── */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 border-t border-border-subtle pt-12">

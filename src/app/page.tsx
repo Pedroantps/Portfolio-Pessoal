@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="flex flex-col min-h-screen px-4 sm:px-6 lg:px-12 2xl:px-24 3xl:px-32 w-full max-w-[1800px] mx-auto">
+      <main className="flex flex-col min-h-screen px-4 sm:px-6 lg:px-12 2xl:px-24 3xl:px-32 w-full max-w-[112.5rem] mx-auto">
         <FadeIn><Hero /></FadeIn>
         <FadeIn><About /></FadeIn>
         <FadeIn><Projects /></FadeIn>

@@ -29,12 +29,15 @@ const socialLinks = [
 
 export function Hero() {
   return (
-    <section id="hero" className="pt-24 pb-8 sm:pt-32 sm:pb-12 flex flex-col justify-center overflow-hidden relative -mx-4 sm:-mx-6 lg:mx-0">
+    <section id="hero" className="min-h-[100dvh] pt-20 pb-6 sm:pt-24 sm:pb-8 lg:pt-0 lg:pb-0 flex flex-col overflow-hidden relative -mx-4 sm:-mx-6 lg:mx-0">
+
+      {/* Spacer to account for fixed navbar height on desktop */}
+      <div className="hidden lg:block h-16 flex-shrink-0" />
 
       {/* ═══════════════════════════════════════════════════════════ */}
       {/* ── MOBILE LAYOUT (< lg) ── */}
       {/* ═══════════════════════════════════════════════════════════ */}
-      <div className="flex lg:hidden flex-col relative justify-center gap-8">
+      <div className="flex lg:hidden flex-col relative justify-center gap-8 flex-1">
 
         {/* ── Top: Name & Greeting ── */}
         <div className="px-6 z-20">
@@ -73,7 +76,7 @@ export function Hero() {
         <div className="relative flex items-center justify-center mt-8 mb-4">
 
           {/* Glow Effect */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] bg-[#6B46C1]/50 blur-[100px] rounded-full pointer-events-none z-0" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[17.5rem] h-[17.5rem] sm:w-[21.875rem] sm:h-[21.875rem] bg-[#6B46C1]/50 blur-[100px] rounded-full pointer-events-none z-0" />
 
           {/* Social Icons — Left Side */}
           <motion.div
@@ -104,7 +107,7 @@ export function Hero() {
             initial={{ scale: 0.9, opacity: 0, filter: "blur(10px)" }}
             animate={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
             transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.1 }}
-            className="relative w-[260px] h-[340px] sm:w-[300px] sm:h-[400px] z-10"
+            className="relative w-[16.25rem] h-[21.25rem] sm:w-[18.75rem] sm:h-[25rem] z-10"
           >
             <Image
               src="/imgs/fotoPedro.png"
@@ -187,17 +190,17 @@ export function Hero() {
       {/* ═══════════════════════════════════════════════════════════ */}
       {/* ── DESKTOP LAYOUT (lg+) ── */}
       {/* ═══════════════════════════════════════════════════════════ */}
-      <div className="hidden lg:flex flex-row items-center justify-between gap-16 2xl:gap-20 3xl:gap-24 w-full">
+      <div className="hidden lg:flex flex-row items-center justify-between gap-16 2xl:gap-20 3xl:gap-24 w-full flex-1">
 
         {/* ── Left Column: Text Content ── */}
-        <div className="flex flex-col gap-6 2xl:gap-8 ml-12 xl:ml-20 2xl:ml-28 3xl:ml-36 flex-1 z-10">
+        <div className="flex flex-col gap-6 2xl:gap-8 ml-12 xl:ml-20 2xl:ml-28 3xl:ml-36 flex-1 shrink-0 z-10">
 
           {/* Status indicator */}
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.1 }}
-            className="flex items-center gap-3 text-text-secondary font-mono text-sm 2xl:text-base tracking-widest uppercase"
+            className="flex items-center gap-3 text-text-secondary font-mono text-sm 2xl:text-base tracking-widest uppercase whitespace-nowrap"
           >
             <span className="flex h-2 w-2 rounded-full bg-status-success relative">
               <span className="absolute inline-flex h-full w-full rounded-full bg-status-success opacity-75 animate-ping"></span>
@@ -210,7 +213,7 @@ export function Hero() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-[#9F7AEA] text-xl 2xl:text-2xl font-medium font-second"
+            className="text-[#9F7AEA] text-xl 2xl:text-2xl font-medium font-second whitespace-nowrap"
           >
             Olá, eu sou
           </motion.span>
@@ -220,25 +223,37 @@ export function Hero() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="text-5xl xl:text-6xl 2xl:text-7xl 3xl:text-8xl font-medium font-second tracking-tighter text-text-primary leading-[1.1]"
+            className="text-5xl xl:text-6xl 2xl:text-7xl 3xl:text-8xl font-medium font-second tracking-tighter text-text-primary leading-[1.1] whitespace-nowrap"
           >
             Pedro Antônio
           </motion.h1>
 
-          {/* Role — DecryptText effect */}
+          {/* Role — Two explicit lines, never wraps */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
+            className="flex flex-col"
           >
             <DecryptText
-              as="h2"
-              text="Full Stack Developer & Software Engineer"
+              as="span"
+              text="Full Stack Developer"
               variant="display"
               trigger="mount"
               stagger={38}
               retriggerOnHover
-              className="text-3xl xl:text-4xl 2xl:text-[2.75rem] 3xl:text-5xl font-bold font-second tracking-tight leading-[1.15]"
+              className="text-3xl xl:text-4xl 2xl:text-[2.75rem] 3xl:text-5xl font-bold font-second tracking-tight leading-[1.15] whitespace-nowrap !block"
+              style={{ color: "var(--text-primary)" }}
+            />
+            <DecryptText
+              as="span"
+              text="& Software Engineer"
+              variant="display"
+              trigger="mount"
+              stagger={38}
+              startDelay={600}
+              retriggerOnHover
+              className="text-3xl xl:text-4xl 2xl:text-[2.75rem] 3xl:text-5xl font-bold font-second tracking-tight leading-[1.15] whitespace-nowrap !block"
               style={{ color: "var(--text-primary)" }}
             />
           </motion.div>
@@ -255,7 +270,7 @@ export function Hero() {
               trigger="mount"
               startDelay={800}
               loop={8000}
-              className="w-full max-w-xl 2xl:max-w-2xl font-body 2xl:text-base"
+              className="w-fit font-body 2xl:text-base whitespace-nowrap"
             />
           </motion.div>
 
@@ -264,17 +279,17 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.7 }}
-            className="flex flex-wrap gap-8 2xl:gap-10 mt-2"
+            className="flex items-center gap-8 2xl:gap-10 mt-2"
           >
             <MagneticButton>
-              <Link href="#projetos" className="group flex items-center gap-2 text-lg 2xl:text-xl font-medium text-text-primary border-b border-border-subtle pb-1 hover:border-text-primary transition-colors hover-target">
+              <Link href="#projetos" className="group flex items-center gap-2 text-lg 2xl:text-xl font-medium text-text-primary border-b border-border-subtle pb-1 hover:border-text-primary transition-colors hover-target whitespace-nowrap">
                 Ver Projetos
                 <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Link>
             </MagneticButton>
 
             <MagneticButton>
-              <a href="docs/curriculo-Pedro-Antonio.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 text-lg 2xl:text-xl font-medium text-text-secondary border-b border-transparent pb-1 hover:text-text-primary hover:border-text-primary transition-colors hover-target">
+              <a href="docs/curriculo-Pedro-Antonio.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 text-lg 2xl:text-xl font-medium text-text-secondary border-b border-transparent pb-1 hover:text-text-primary hover:border-text-primary transition-colors hover-target whitespace-nowrap">
                 Download CV
               </a>
             </MagneticButton>
@@ -284,13 +299,13 @@ export function Hero() {
         {/* ── Right Column: Photo + Social Icons ── */}
         <div className="flex justify-center items-end relative z-0 flex-shrink-0 mr-12 xl:mr-20 2xl:mr-28 3xl:mr-36">
           {/* Glow Effect */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] xl:w-[400px] xl:h-[400px] 2xl:w-[480px] 2xl:h-[480px] 3xl:w-[550px] 3xl:h-[550px] bg-[#6B46C1]/40 blur-[100px] 2xl:blur-[120px] rounded-full pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vh] h-[50vh] xl:w-[55vh] xl:h-[55vh] 2xl:w-[60vh] 2xl:h-[60vh] bg-[#6B46C1]/40 blur-[100px] 2xl:blur-[120px] rounded-full pointer-events-none" />
 
           <motion.div
             initial={{ scale: 0.9, opacity: 0, filter: "blur(10px)" }}
             animate={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
             transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.1 }}
-            className="relative w-[380px] h-[480px] xl:w-[420px] xl:h-[530px] 2xl:w-[480px] 2xl:h-[600px] 3xl:w-[540px] 3xl:h-[680px]"
+            className="relative h-[60vh] max-h-[75vh] aspect-[3/4]"
           >
             <Image
               src="/imgs/fotoPedro.png"

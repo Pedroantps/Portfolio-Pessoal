@@ -5,7 +5,7 @@ import { TextWordReveal } from "@/components/ui/TextWordReveal";
 export function Skills() {
   return (
     <section id="habilidades" className="py-16 sm:py-20">
-      <div className="flex flex-col gap-16 max-w-[min(90vw,1600px)] mx-auto">
+      <div className="flex flex-col gap-16 max-w-[min(90vw,100rem)] mx-auto">
         <div className="flex flex-col gap-6 max-w-2xl">
           <h2 className="text-[clamp(2rem,3.5vw,3.5rem)] font-extrabold font-second text-text-primary leading-[1.05] tracking-tight">
             <TextWordReveal text="Habilidades Técnicas" />

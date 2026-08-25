@@ -45,7 +45,7 @@ export function Projects() {
 
   return (
     <section id="projetos" className="py-16 sm:py-20 overflow-hidden">
-      <div className="flex flex-col gap-12 max-w-[min(90vw,1600px)] mx-auto">
+      <div className="flex flex-col gap-12 max-w-[min(90vw,100rem)] mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 border-b border-border-subtle pb-8">
           <div className="max-w-xl">
@@ -92,12 +92,12 @@ export function Projects() {
                     layout: { duration: 0.3 },
                   }}
                   className="flex-shrink-0"
-                  style={{ width: 'clamp(320px, 28vw, 480px)' } as React.CSSProperties}
+                  style={{ width: 'clamp(20rem, 28vw, 30rem)' } as React.CSSProperties}
                 >
                   <GlowCard
                     glowColor={glowColors[index % glowColors.length]}
                     customSize
-                    className="flex flex-col p-0 min-h-[540px] overflow-hidden h-full"
+                    className="flex flex-col p-0 min-h-[33.75rem] overflow-hidden h-full"
                   >
                     {/* Card content — sits above the [data-glow] inner div */}
                     <div className="relative z-10 flex flex-col h-full">
