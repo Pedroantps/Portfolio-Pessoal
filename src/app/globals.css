@@ -7,6 +7,8 @@
   --color-brand-primary: var(--brand-primary);
   --color-brand-secondary: var(--brand-secondary);
   --color-brand-accent: var(--brand-accent);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
   --color-text-muted: var(--text-muted);
@@ -14,55 +16,70 @@
   --color-border-strong: var(--border-strong);
   --color-status-success: var(--status-success);
   --font-body: var(--body-font), sans-serif;
-  --font-second: var(--second-font), sans-serif;
+  --font-second: var(--body-font), sans-serif;
 
   /* Custom breakpoint for Full HD+ screens */
   --breakpoint-3xl: 1920px;
 }
 
-
+/* Grafite + branco quente + âmbar de sinalização.
+   O âmbar é a única cor de destaque do site: ações, estado ativo e foco. */
 :root {
-  /* Cores Base / Ultra Minimalist Dark */
-  --bg-primary: #05070B;
-  --bg-surface: transparent;
-  --bg-surface-hover: rgba(255, 255, 255, 0.03);
-  --brand-primary: #EDEDED;
-  --brand-secondary: #A1A1AA;
-  --brand-accent: #EDEDED;
-  --text-primary: #EDEDED;
-  --text-secondary: #A1A1AA;
-  --text-muted: #52525B;
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.15);
-  --status-success: #10B981;
+  --bg-primary: #141413;
+  --bg-surface: #1C1C1A;
+  --bg-surface-hover: #23231F;
+  --brand-primary: #ECE8DE;
+  --brand-secondary: #A9A497;
+  --brand-accent: #F2A93B;
+  --accent: #F2A93B;
+  --accent-ink: #1A1305;
+  --text-primary: #ECE8DE;
+  --text-secondary: #A9A497;
+  --text-muted: #77736A;
+  --border-subtle: rgba(236, 232, 222, 0.09);
+  --border-strong: rgba(236, 232, 222, 0.18);
+  --status-success: #7BC67E;
 
-  /* Motiq dark overrides (site is dark by default, no .dark class) */
-  --motiq-accent: #9F7AEA;
-  --motiq-accent-text: #B794F4;
-  --motiq-bg: #05070B;
-  --motiq-border: #263449;
-  --motiq-border-strong: #354863;
-  --motiq-fg: #EDEDED;
-  --motiq-fg-secondary: #A1A1AA;
-  --motiq-muted: #9caabd;
-  --motiq-secondary-accent: #9F7AEA;
-  --motiq-shadow-md: 0 8px 24px -6px rgba(0, 3, 10, 0.62);
-  --motiq-success: #10B981;
-  --motiq-surface: #0a0e17;
-  --motiq-surface-2: #111827;
+  /* Tokens do DecryptText (efeito de decodificação no hero), na paleta do site */
+  --motiq-accent: #F2A93B;
+  --motiq-accent-text: #F6BC5E;
+  --motiq-bg: #141413;
+  --motiq-border: rgba(236, 232, 222, 0.14);
+  --motiq-border-strong: rgba(236, 232, 222, 0.22);
+  --motiq-fg: #ECE8DE;
+  --motiq-fg-secondary: #A9A497;
+  --motiq-muted: #8A867C;
+  --motiq-secondary-accent: #F2A93B;
+  --motiq-shadow-md: 0 8px 24px -6px rgba(0, 0, 0, 0.5);
+  --motiq-success: #7BC67E;
+  --motiq-surface: #1C1C1A;
+  --motiq-surface-2: #23231F;
+
+  color-scheme: dark;
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   Fluid Root Scale — Proportional layout across all desktop sizes
-   ─────────────────────────────────────────────────────────────────
-   Reference : 1440px viewport → 1rem = 16px (design baseline)
-   Formula   : font-size = (100vw / 1440) * 16 ≈ 1.1111vw
-   Clamp     : min 14px (small laptops) ↔ max 22px (ultrawide)
-   Mobile    : untouched (default 16px / 100%)
-   ═══════════════════════════════════════════════════════════════════ */
+/* Cursor customizado substitui o do sistema em mouse/trackpad */
+@media (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
+}
+
+/* Escala fluida no desktop: 1440px de viewport → 1rem = 16px */
 @media (min-width: 1024px) {
   html {
-    font-size: clamp(14px, 1.1111vw, 22px);
+    font-size: clamp(14px, 1.1111vw, 20px);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }
 
@@ -72,69 +89,41 @@ body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   overflow-x: hidden;
+  font-feature-settings: "ss01", "tnum" 0;
 }
 
-
-@media (pointer: fine) {
-  * {
-    cursor: none !important;
-  }
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
 }
 
-/* --- Lenis Smooth Scroll --- */
-html.lenis,
-html.lenis body {
-  height: auto;
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
+/* Barras de rolagem no tom do site */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
 }
 
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
+/* Títulos de seção: um tamanho só para todas */
+.section-title {
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 700;
+  font-stretch: 112%;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+  color: var(--text-primary);
 }
 
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
-.lenis.lenis-scrolling iframe {
-  pointer-events: none;
-}
-
-/* Utilities para Bento Grid & Animações */
-.border-gradient-glow {
-  position: relative;
-  background: var(--bg-surface);
-  border-radius: inherit;
-  z-index: 1;
-}
-
-.border-gradient-glow::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  background: linear-gradient(to right, var(--brand-primary), var(--brand-secondary));
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.border-gradient-glow::after {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  background: linear-gradient(to right, var(--brand-primary), var(--brand-secondary));
-  filter: blur(12px);
-  z-index: -2;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.border-gradient-glow:hover::before,
-.border-gradient-glow:hover::after {
-  opacity: 1;
+.section-lead {
+  margin-top: 1rem;
+  max-width: 36rem;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
 }

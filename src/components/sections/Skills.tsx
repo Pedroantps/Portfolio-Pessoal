@@ -1,42 +1,32 @@
-import * as React from "react";
 import { skills } from "@/config/data";
-import { TextWordReveal } from "@/components/ui/TextWordReveal";
 
 export function Skills() {
   return (
-    <section id="habilidades" className="py-16 sm:py-20">
-      <div className="flex flex-col gap-16 max-w-[min(90vw,100rem)] mx-auto">
-        <div className="flex flex-col gap-6 max-w-2xl">
-          <h2 className="text-[clamp(2rem,3.5vw,3.5rem)] font-extrabold font-second text-text-primary leading-[1.05] tracking-tight">
-            <TextWordReveal text="Habilidades Técnicas" />
-          </h2>
-          <p className="text-base text-text-secondary font-light font-body">
-            O stack essencial que utilizo para construir produtos digitais robustos e de alto nível.
-          </p>
+    <section id="habilidades" className="py-20 sm:py-24 border-t border-border-subtle">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8">
+        <div className="lg:col-span-4">
+          <h2 className="section-title">Habilidades</h2>
+          <p className="section-lead">As ferramentas que uso no dia a dia para construir produtos.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-y-12 gap-x-8 border-t border-border-subtle pt-12">
-          {skills.map((skillGroup, index) => {
-            return (
-              <div key={index} className="flex flex-col group relative">
-                <div className="flex items-center gap-4 mb-8">
-                  <span className="text-sm font-second text-text-secondary tracking-widest uppercase">
-                    0{index + 1} {"//"} {skillGroup.category}
-                  </span>
-                </div>
-                <div className="flex flex-col gap-4">
-                  {skillGroup.items.map((item, i) => (
-                    <span
-                      key={i}
-                      className="text-lg sm:text-xl 2xl:text-2xl font-bold font-second text-text-primary/70 hover:text-text-primary transition-colors"
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
+        <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-10 sm:gap-8">
+          {skills.map((group) => (
+            <div key={group.category}>
+              <h3 className="pb-4 border-b border-border-subtle text-sm font-medium text-text-secondary">
+                {group.category}
+              </h3>
+              <ul className="mt-4 flex flex-col">
+                {group.items.map((item) => (
+                  <li
+                    key={item}
+                    className="py-2 text-xl sm:text-2xl font-semibold tracking-tight text-text-primary [font-stretch:110%]"
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </div>
     </section>

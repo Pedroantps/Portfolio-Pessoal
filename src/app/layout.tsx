@@ -1,17 +1,13 @@
 import type { Metadata } from "next";
-import { Montserrat, Unbounded } from "next/font/google";
+import { Archivo } from "next/font/google";
 import { siteConfig } from "@/config/site";
+import { CustomCursor } from "@/components/ui/CustomCursor";
 import "./globals.css";
 
-const montserrat = Montserrat({
+const archivo = Archivo({
   subsets: ["latin"],
+  axes: ["wdth"],
   variable: "--body-font",
-  display: "swap",
-});
-
-const unbounded = Unbounded({
-  subsets: ["latin"],
-  variable: "--second-font",
   display: "swap",
 });
 
@@ -26,28 +22,17 @@ export const metadata: Metadata = {
   },
 };
 
-import { SmoothScrollProvider } from "@/components/ui/SmoothScrollProvider";
-import { CustomCursor } from "@/components/ui/CustomCursor";
-import { AnimatedBackground } from "@/components/ui/AnimatedBackground";
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="pt-BR"
-      className={`${montserrat.variable} ${unbounded.variable} h-full antialiased`}
-    >
+    <html lang="pt-BR" className={`${archivo.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <AnimatedBackground />
-        <SmoothScrollProvider>
-          <CustomCursor />
-          {children}
-        </SmoothScrollProvider>
+        <CustomCursor />
+        {children}
       </body>
     </html>
   );
 }
-

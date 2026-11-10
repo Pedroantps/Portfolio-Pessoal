@@ -1,346 +1,147 @@
 "use client";
 
-import * as React from "react";
-import Link from "next/link";
 import Image from "next/image";
-import { MagneticButton } from "@/components/ui/MagneticButton";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowDown, Mail } from "lucide-react";
 import { siteConfig } from "@/config/site";
-import { motion } from "framer-motion";
-import { ArrowRight, Mail } from "lucide-react";
+import { IconGithub, IconLinkedin, IconWhatsApp } from "@/components/ui/BrandIcons";
 import { DecryptText } from "@/components/ui/DecryptText";
 
-/* ── Brand SVG icons (not available in this lucide-react version) ── */
-const IconLinkedin = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
-);
-const IconGithub = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" /></svg>
-);
-const IconWhatsApp = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
-);
-
 const socialLinks = [
-  { href: siteConfig.links.linkedin, icon: IconLinkedin, label: "LinkedIn" },
   { href: siteConfig.links.github, icon: IconGithub, label: "GitHub" },
-  { href: siteConfig.links.email, icon: Mail, label: "Email" },
+  { href: siteConfig.links.linkedin, icon: IconLinkedin, label: "LinkedIn" },
+  { href: siteConfig.links.email, icon: Mail, label: "E-mail" },
   { href: siteConfig.links.whatsapp, icon: IconWhatsApp, label: "WhatsApp" },
 ];
 
+const ease = [0.16, 1, 0.3, 1] as const;
+
+/* Caracteres do embaralhamento com largura parecida com a das letras,
+   para a linha não crescer e quebrar durante a animação no mobile. */
+const DISPLAY_GLYPHS = "0123456789abcdefnoux";
+const TERMINAL_GLYPHS = "abcdef0123456789";
+
 export function Hero() {
+  const reduce = useReducedMotion();
+
   return (
-    <section id="hero" className="min-h-[100dvh] pt-20 pb-6 sm:pt-24 sm:pb-8 lg:pt-0 lg:pb-0 flex flex-col overflow-hidden relative -mx-4 sm:-mx-6 lg:mx-0">
+    <section
+      id="hero"
+      className="lg:min-h-[100svh] pt-20 pb-16 lg:pt-16 lg:pb-0 grid grid-cols-1 lg:grid-cols-12 items-center gap-8 lg:gap-8"
+    >
+      {/* Texto. No mobile o wrapper vira "contents" para a foto entrar
+          entre o terminal e os botões (via order). */}
+      <div className="contents lg:flex lg:flex-col lg:col-span-7">
+        <div className="order-1 lg:order-none flex flex-col">
+        <p className="flex items-center gap-2.5 text-sm text-text-secondary">
+          <span className="h-2 w-2 rounded-full bg-status-success" aria-hidden="true" />
+          Disponível para oportunidades
+        </p>
 
-      {/* Spacer to account for fixed navbar height on desktop */}
-      <div className="hidden lg:block h-16 flex-shrink-0" />
+        <h1 className="mt-6 text-[clamp(3rem,8.5vw,7rem)] font-extrabold leading-[0.92] tracking-[-0.04em] text-text-primary [font-stretch:118%]">
+          Pedro
+          <br />
+          Antônio
+        </h1>
 
-      {/* ═══════════════════════════════════════════════════════════ */}
-      {/* ── MOBILE LAYOUT (< lg) ── */}
-      {/* ═══════════════════════════════════════════════════════════ */}
-      <div className="flex lg:hidden flex-col relative justify-center gap-8 flex-1">
-
-        {/* ── Top: Name & Greeting ── */}
-        <div className="px-6 z-20">
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            className="flex items-center gap-2 text-text-secondary font-mono text-[10px] sm:text-xs tracking-widest uppercase mb-3"
-          >
-            <span className="flex h-1.5 w-1.5 rounded-full bg-status-success relative">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-status-success opacity-75 animate-ping"></span>
-            </span>
-            Available for new projects
-          </motion.div>
-
-          <motion.span
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="block text-[#9F7AEA] text-sm sm:text-base font-medium font-second mb-1"
-          >
-            Olá, eu sou
-          </motion.span>
-
-          <motion.h1
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="text-[2.5rem] sm:text-5xl font-medium font-second tracking-tighter text-text-primary leading-[1.05]"
-          >
-            Pedro<br />Antônio
-          </motion.h1>
+        <div className="mt-8 flex flex-col">
+          <DecryptText
+            as="span"
+            text="Full Stack Developer"
+            trigger="mount"
+            stagger={38}
+            retriggerOnHover
+            glyphs={DISPLAY_GLYPHS}
+            className="!block whitespace-nowrap text-[clamp(1.5rem,7vw,1.75rem)] lg:text-[clamp(1.6rem,3.2vw,2.75rem)] font-bold leading-[1.1] tracking-[-0.02em] [font-stretch:112%]"
+          />
+          <DecryptText
+            as="span"
+            text="& Software Engineer"
+            trigger="mount"
+            stagger={38}
+            startDelay={600}
+            retriggerOnHover
+            glyphs={DISPLAY_GLYPHS}
+            className="!block whitespace-nowrap text-[clamp(1.5rem,7vw,1.75rem)] lg:text-[clamp(1.6rem,3.2vw,2.75rem)] font-bold leading-[1.1] tracking-[-0.02em] [font-stretch:112%]"
+          />
         </div>
 
-        {/* ── Center: Photo + Social Icons ── */}
-        <div className="relative flex items-center justify-center mt-8 mb-4">
+        <DecryptText
+          text="npx create-portfolio@latest --name pedro-antonio"
+          variant="terminal"
+          trigger="mount"
+          startDelay={800}
+          loop={8000}
+          glyphs={TERMINAL_GLYPHS}
+          className="mt-6 w-fit max-w-full font-body text-[clamp(9.5px,3vw,11px)] sm:text-sm 2xl:text-base whitespace-nowrap"
+        />
+        </div>
 
-          {/* Glow Effect */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[17.5rem] h-[17.5rem] sm:w-[21.875rem] sm:h-[21.875rem] bg-[#6B46C1]/50 blur-[100px] rounded-full pointer-events-none z-0" />
-
-          {/* Social Icons — Left Side */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            className="absolute left-5 sm:left-6 top-1/2 -translate-y-1/2 flex flex-col gap-5 z-20"
+        <div className="order-3 lg:order-none lg:mt-10 flex flex-col">
+        <div className="flex flex-col sm:flex-row gap-3">
+          <a
+            href="#projetos"
+            className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-accent px-6 text-base font-medium text-accent-ink hover:bg-[#F6BC5E] active:translate-y-px transition-colors"
           >
-            {socialLinks.map((link, i) => (
-              <motion.a
-                key={link.label}
+            Ver projetos
+            <ArrowDown className="h-4 w-4" aria-hidden="true" />
+          </a>
+          <a
+            href="/docs/curriculo-Pedro-Antonio.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-12 items-center justify-center rounded-md border border-border-strong px-6 text-base font-medium text-text-primary hover:border-text-secondary hover:bg-bg-surface active:translate-y-px transition-colors"
+          >
+            Baixar currículo
+          </a>
+        </div>
+
+        <ul className="mt-10 flex items-center gap-1 -ml-3">
+          {socialLinks.map((link) => (
+            <li key={link.label}>
+              <a
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: 0.7 + i * 0.1 }}
-                className="text-text-secondary hover:text-text-primary transition-colors hover-target"
                 aria-label={link.label}
+                className="flex h-11 w-11 items-center justify-center rounded-md text-text-secondary hover:text-accent hover:bg-bg-surface transition-colors"
               >
                 <link.icon className="h-5 w-5" />
-              </motion.a>
-            ))}
-          </motion.div>
-
-          {/* Photo */}
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0, filter: "blur(10px)" }}
-            animate={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
-            transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.1 }}
-            className="relative w-[16.25rem] h-[21.25rem] sm:w-[18.75rem] sm:h-[25rem] z-10"
-          >
-            <Image
-              src="/imgs/fotoPedro.png"
-              alt="Pedro Antônio"
-              fill
-              className="object-contain object-bottom drop-shadow-2xl"
-              priority
-            />
-          </motion.div>
-        </div>
-
-        {/* ── Bottom: Role & CTAs overlapping photo ── */}
-        <div className="relative z-20 px-6 pb-8 -mt-24 sm:-mt-28 text-center">
-          {/* Gradient fade for readability — smooth multi-stop */}
-          <div
-            className="absolute inset-x-0 bottom-0 h-64 -z-10 pointer-events-none"
-            style={{
-              background: "linear-gradient(to top, var(--bg-primary) 0%, rgba(5,7,11,0.7) 40%, rgba(5,7,11,0.3) 70%, transparent 100%)",
-            }}
-          />
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            className="mb-4"
-          >
-            <DecryptText
-              as="h2"
-              text="Full Stack Developer & Software Engineer"
-              variant="display"
-              trigger="mount"
-              stagger={38}
-              retriggerOnHover
-              className="text-xl sm:text-2xl font-bold font-second tracking-tight leading-[1.15]"
-              style={{ color: "var(--text-primary)" }}
-            />
-          </motion.div>
-
-          {/* Terminal */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.65 }}
-            className="mb-5 flex justify-center"
-          >
-            <DecryptText
-              text="npx create-portfolio@latest --name pedro-antonio"
-              variant="terminal"
-              trigger="mount"
-              startDelay={800}
-              loop={8000}
-              className="font-body text-[9px] sm:text-xs whitespace-nowrap"
-            />
-          </motion.div>
-
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.7 }}
-            className="flex justify-center gap-5"
-          >
-            <MagneticButton>
-              <Link href="#projetos" className="group flex items-center gap-2 text-sm sm:text-base font-medium text-text-primary border-b border-border-subtle pb-1 hover:border-text-primary transition-colors hover-target">
-                Ver Projetos
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </MagneticButton>
-
-            <MagneticButton>
-              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 text-sm sm:text-base font-medium text-text-secondary border-b border-transparent pb-1 hover:text-text-primary hover:border-text-primary transition-colors hover-target">
-                Download CV
               </a>
-            </MagneticButton>
-          </motion.div>
+            </li>
+          ))}
+        </ul>
         </div>
       </div>
 
-      {/* ═══════════════════════════════════════════════════════════ */}
-      {/* ── DESKTOP LAYOUT (lg+) ── */}
-      {/* ═══════════════════════════════════════════════════════════ */}
-      <div className="hidden lg:flex flex-row items-center justify-between gap-16 2xl:gap-20 3xl:gap-24 w-full flex-1">
-
-        {/* ── Left Column: Text Content ── */}
-        <div className="flex flex-col gap-6 2xl:gap-8 ml-12 xl:ml-20 2xl:ml-28 3xl:ml-36 flex-1 shrink-0 z-10">
-
-          {/* Status indicator */}
+      {/* Retrato sobre o bloco âmbar.
+          Mobile: entre o terminal e os botões, recortado da cabeça à cintura.
+          Desktop: coluna da direita, corpo inteiro. */}
+      <div className="order-2 lg:order-none lg:col-span-5 lg:self-end">
+        <div className="relative mx-auto sm:mx-0 lg:mx-auto w-full h-[17rem] sm:h-[22rem] sm:max-w-[30rem] overflow-hidden rounded-b-md lg:h-auto lg:max-w-[30rem] lg:aspect-[4/5] lg:overflow-visible lg:rounded-none">
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
+            aria-hidden="true"
+            className="absolute inset-x-0 bottom-0 h-[70%] lg:h-[74%] rounded-md bg-accent origin-bottom"
+            initial={reduce ? false : { scaleY: 0.4, opacity: 0 }}
+            animate={{ scaleY: 1, opacity: 1 }}
+            transition={{ duration: 0.9, ease }}
+          />
+          <motion.div
+            className="absolute top-0 inset-x-0 mx-auto w-[16rem] sm:w-[21rem] aspect-[2/3] lg:inset-0 lg:w-auto lg:aspect-auto"
+            initial={reduce ? false : { opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            className="flex items-center gap-3 text-text-secondary font-mono text-sm 2xl:text-base tracking-widest uppercase whitespace-nowrap"
-          >
-            <span className="flex h-2 w-2 rounded-full bg-status-success relative">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-status-success opacity-75 animate-ping"></span>
-            </span>
-            Available for new projects
-          </motion.div>
-
-          {/* Greeting */}
-          <motion.span
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-[#9F7AEA] text-xl 2xl:text-2xl font-medium font-second whitespace-nowrap"
-          >
-            Olá, eu sou
-          </motion.span>
-
-          {/* Name */}
-          <motion.h1
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="text-5xl xl:text-6xl 2xl:text-7xl 3xl:text-8xl font-medium font-second tracking-tighter text-text-primary leading-[1.1] whitespace-nowrap"
-          >
-            Pedro Antônio
-          </motion.h1>
-
-          {/* Role — Two explicit lines, never wraps */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="flex flex-col"
-          >
-            <DecryptText
-              as="span"
-              text="Full Stack Developer"
-              variant="display"
-              trigger="mount"
-              stagger={38}
-              retriggerOnHover
-              className="text-3xl xl:text-4xl 2xl:text-[2.75rem] 3xl:text-5xl font-bold font-second tracking-tight leading-[1.15] whitespace-nowrap !block"
-              style={{ color: "var(--text-primary)" }}
-            />
-            <DecryptText
-              as="span"
-              text="& Software Engineer"
-              variant="display"
-              trigger="mount"
-              stagger={38}
-              startDelay={600}
-              retriggerOnHover
-              className="text-3xl xl:text-4xl 2xl:text-[2.75rem] 3xl:text-5xl font-bold font-second tracking-tight leading-[1.15] whitespace-nowrap !block"
-              style={{ color: "var(--text-primary)" }}
-            />
-          </motion.div>
-
-          {/* Terminal command */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.65 }}
-          >
-            <DecryptText
-              text="npx create-portfolio@latest --name pedro-antonio"
-              variant="terminal"
-              trigger="mount"
-              startDelay={800}
-              loop={8000}
-              className="w-fit font-body 2xl:text-base whitespace-nowrap"
-            />
-          </motion.div>
-
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.7 }}
-            className="flex items-center gap-8 2xl:gap-10 mt-2"
-          >
-            <MagneticButton>
-              <Link href="#projetos" className="group flex items-center gap-2 text-lg 2xl:text-xl font-medium text-text-primary border-b border-border-subtle pb-1 hover:border-text-primary transition-colors hover-target whitespace-nowrap">
-                Ver Projetos
-                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </MagneticButton>
-
-            <MagneticButton>
-              <a href="docs/curriculo-Pedro-Antonio.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 text-lg 2xl:text-xl font-medium text-text-secondary border-b border-transparent pb-1 hover:text-text-primary hover:border-text-primary transition-colors hover-target whitespace-nowrap">
-                Download CV
-              </a>
-            </MagneticButton>
-          </motion.div>
-        </div>
-
-        {/* ── Right Column: Photo + Social Icons ── */}
-        <div className="flex justify-center items-end relative z-0 flex-shrink-0 mr-12 xl:mr-20 2xl:mr-28 3xl:mr-36">
-          {/* Glow Effect */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vh] h-[50vh] xl:w-[55vh] xl:h-[55vh] 2xl:w-[60vh] 2xl:h-[60vh] bg-[#6B46C1]/40 blur-[100px] 2xl:blur-[120px] rounded-full pointer-events-none" />
-
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0, filter: "blur(10px)" }}
-            animate={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
-            transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.1 }}
-            className="relative h-[60vh] max-h-[75vh] aspect-[3/4]"
+            transition={{ duration: 0.9, delay: 0.15, ease }}
           >
             <Image
               src="/imgs/fotoPedro.png"
               alt="Pedro Antônio"
               fill
-              className="object-contain object-bottom drop-shadow-2xl"
               priority
+              sizes="(min-width: 1024px) 30rem, (min-width: 640px) 21rem, 16rem"
+              className="object-contain object-top lg:object-bottom"
             />
           </motion.div>
-
-          {/* Social Icons — Right Side */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            className="flex flex-col gap-6 2xl:gap-8 ml-6 2xl:ml-8 self-center"
-          >
-            {socialLinks.map((link, i) => (
-              <motion.a
-                key={link.label}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                initial={{ opacity: 0, x: 10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: 0.7 + i * 0.1 }}
-                className="text-text-secondary hover:text-[#9F7AEA] transition-colors duration-300 hover-target"
-                aria-label={link.label}
-              >
-                <link.icon className="h-5 w-5 2xl:h-6 2xl:w-6" />
-              </motion.a>
-            ))}
-          </motion.div>
         </div>
-
       </div>
     </section>
   );

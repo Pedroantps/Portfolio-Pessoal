@@ -1,85 +1,84 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
-import { siteConfig } from "@/config/site";
-import { Button } from "@/components/ui/Button";
-import { MagneticButton } from "@/components/ui/MagneticButton";
 import { Menu, X } from "lucide-react";
+
+const navLinks = [
+  { name: "Sobre", href: "#sobre" },
+  { name: "Projetos", href: "#projetos" },
+  { name: "Habilidades", href: "#habilidades" },
+  { name: "Trajetória", href: "#experiencia" },
+];
 
 export function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);
 
-  const navLinks = [
-    { name: "Sobre", href: "#sobre" },
-    { name: "Projetos", href: "#projetos" },
-    { name: "Habilidades", href: "#habilidades" },
-    { name: "Experiência", href: "#experiencia" },
-  ];
+  React.useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-bg-primary/80 backdrop-blur-md border-b border-border-subtle font-second">
-      <div className="w-full max-w-[112.5rem] mx-auto px-4 sm:px-6 lg:px-12 2xl:px-24 3xl:px-32">
-        <div className="flex h-16 items-center justify-between">
-          <div className="flex-shrink-0">
-            <Link href="/" className="text-xl font-bold text-text-primary tracking-tight">
-              {siteConfig.name.split(' ')[0]}<span className="text-brand-primary">.dev</span>
-            </Link>
-          </div>
+    <header className="fixed top-0 inset-x-0 z-50 bg-bg-primary/90 backdrop-blur-md border-b border-border-subtle">
+      <div className="max-w-[90rem] mx-auto px-5 sm:px-8 lg:px-16 flex h-16 items-center justify-between">
+        <a href="#hero" className="text-lg font-bold tracking-tight text-text-primary [font-stretch:115%]">
+          Pedro<span className="text-accent">.</span>dev
+        </a>
 
-          <nav className="hidden md:block">
-            <ul className="flex items-center space-x-8">
-              {navLinks.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-sm font-medium text-text-secondary hover:text-brand-primary transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-              <li>
-                <MagneticButton>
-                  <Link href="#contato">
-                    <Button variant="outline" size="sm">Contato</Button>
-                  </Link>
-                </MagneticButton>
-              </li>
-            </ul>
-          </nav>
+        <nav aria-label="Principal" className="hidden md:flex items-center gap-8">
+          {navLinks.map((link) => (
+            <a
+              key={link.name}
+              href={link.href}
+              className="text-sm text-text-secondary hover:text-text-primary transition-colors"
+            >
+              {link.name}
+            </a>
+          ))}
+          <a
+            href="#contato"
+            className="inline-flex h-9 items-center rounded-md bg-accent px-4 text-sm font-medium text-accent-ink hover:bg-[#F6BC5E] active:translate-y-px transition-colors"
+          >
+            Fale comigo
+          </a>
+        </nav>
 
-          <div className="md:hidden">
-            <MagneticButton>
-              <Button variant="icon" onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu">
-                {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-              </Button>
-            </MagneticButton>
-          </div>
-        </div>
+        <button
+          type="button"
+          onClick={() => setIsOpen((v) => !v)}
+          aria-label={isOpen ? "Fechar menu" : "Abrir menu"}
+          aria-expanded={isOpen}
+          className="md:hidden -mr-2 flex h-11 w-11 items-center justify-center rounded-md text-text-primary hover:bg-bg-surface"
+        >
+          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
       </div>
 
-      {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-bg-surface border-b border-border-subtle">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                className="block px-3 py-2 rounded-md text-base font-medium text-text-secondary hover:text-brand-primary hover:bg-bg-surface-hover transition-colors"
-              >
-                {link.name}
-              </Link>
-            ))}
-            <div className="px-3 py-2">
-              <Link href="#contato" onClick={() => setIsOpen(false)}>
-                <Button variant="primary" className="w-full">Contato</Button>
-              </Link>
-            </div>
-          </div>
-        </div>
+        <nav
+          aria-label="Menu"
+          className="md:hidden absolute inset-x-0 top-full h-[calc(100dvh-4rem)] overflow-y-auto bg-bg-primary px-5 sm:px-8 pt-6 pb-10 flex flex-col"
+        >
+          {navLinks.map((link) => (
+            <a
+              key={link.name}
+              href={link.href}
+              onClick={() => setIsOpen(false)}
+              className="py-4 border-b border-border-subtle text-2xl font-semibold text-text-primary [font-stretch:110%]"
+            >
+              {link.name}
+            </a>
+          ))}
+          <a
+            href="#contato"
+            onClick={() => setIsOpen(false)}
+            className="mt-8 inline-flex h-12 items-center justify-center rounded-md bg-accent text-base font-medium text-accent-ink"
+          >
+            Fale comigo
+          </a>
+        </nav>
       )}
     </header>
   );

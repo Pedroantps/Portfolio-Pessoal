@@ -1,5 +1,3 @@
-import { Database, LayoutTemplate, Terminal } from "lucide-react";
-
 export const aboutMetrics = [
   { label: "Anos de Estudo", value: "4+" },
   { label: "Projetos de Destaque", value: "6+" },
@@ -9,17 +7,14 @@ export const aboutMetrics = [
 export const skills = [
   {
     category: "Linguagens de Programação",
-    icon: Terminal,
     items: ["TypeScript", "Python", "C#", "C++"],
   },
   {
     category: "Front-end & UI",
-    icon: LayoutTemplate,
     items: ["HTML", "CSS", "React", "Next.js", "Tailwind CSS"],
   },
   {
     category: "Backend & Bancos de Dados",
-    icon: Database,
     items: ["C#", "Node.js", "Express", "SQL"],
   },
 ];
